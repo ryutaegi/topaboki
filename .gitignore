@@ -1,0 +1,10 @@
+
+.DS_Store
+WEB/.env
+WEB/server/.env
+
+.env
+node_modules/
+venv/
+AI/node_modules/
+prod.env

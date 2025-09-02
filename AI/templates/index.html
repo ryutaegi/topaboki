@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>라즈베리파이 카메라 스트리밍</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        h1 {
+            color: #1c1e21;
+            margin-bottom: 1rem;
+        }
+        #video-container {
+            background-color: #000;
+            border: 1px solid #dddfe2;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 8px;
+            max-width: 90%;
+        }
+        img {
+            display: block;
+            width: 100%;
+            max-width: 640px;
+            height: auto;
+            border-radius: 4px;
+        }
+        p {
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+            color: #606770;
+            text-align: center;
+        }
+        code {
+            background-color: #e4e6eb;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>라즈베리파이 실시간 카메라</h1>
+
+    <div id="video-container">
+        <img src="{{ url_for('video_feed') }}" alt="실시간 비디오 스트리밍">
+    </div>
+
+    <p>이 화면을 보면서 라즈베리파이에 연결된<br><code>정상</code> 또는 <code>비정상</code> 버튼을 눌러 이미지를 캡처하고 분석하세요.</p>
+
+</body>
+</html>

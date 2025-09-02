@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: ./WEB/server
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3001:3000"
+    env_file:
+      - prod.env # 운영 환경용 환경변수 파일을 사용
+    volumes:
+      - ./WEB/server/uploads:/app/uploads # 업로드된 파일은 유지
+    environment:
+      - NODE_ENV=production
+      - DATABASE_HOST=${DATABASE_HOST} # prod.env 파일에서 주입
+
+  client:
+    build:
+      context: ./WEB/client
+      dockerfile: Dockerfile.prod
+      args:
+        - VITE_API_URL=${VITE_API_URL}
+    restart: always
+    ports:
+      - "8080:80"
+
+  ai:
+    build:
+      context: ./AI
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8000:8000"
+    env_file:
+      - prod.env # 운영 환경용 환경변수 파일을 사용
+    volumes:
+      - ./WEB/server/uploads:/app/WEB/server/uploads # 업로드된 파일 공유
+    environment:
+      - NESTJS_URL=http://server:3000

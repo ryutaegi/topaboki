@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: user
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  server:
+    build:
+      context: ./WEB/server
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    env_file:
+      - ./WEB/server/.env
+    environment:
+      NODE_OPTIONS: --dns-result-order=ipv4first
+      DATABASE_HOST: db
+    volumes:
+      - ./WEB/server:/app
+      - /app/node_modules
+      - ./WEB/server/uploads:/app/uploads
+
+  client:
+    build:
+      context: ./WEB/client
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./WEB/client:/app
+      - /app/node_modules
+    depends_on:
+      - server
+    environment:
+      - NODE_OPTIONS=--openssl-legacy-provider
+      - VITE_API_URL=http://localhost:3000
+      - AI_URL=http://localhost:8000
+    command: npm run dev -- --host
+
+  ai:
+    build:
+      context: ./AI
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./AI:/app
+      - ./WEB/server/uploads:/app/WEB/server/uploads
+    env_file:
+      - ./.env
+    environment:
+      NESTJS_URL: http://server:3000
+
+volumes:
+  mysql_data:

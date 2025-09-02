@@ -1,0 +1,4 @@
+Flask
+requests
+picamera2
+gpiozero
