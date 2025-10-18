@@ -41,7 +41,7 @@
 
 ### 🧠 AI
 *   **Framework**: `Python`, `FastAPI`
-*   **ML/Vision**: `OpenCV`, `Pytorch` 또는 `TensorFlow` (예상)
+*   **ML/Vision**: `OpenAI`
 
 ### 🍓 PI
 *   **Hardware**: `Raspberry Pi`
